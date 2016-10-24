@@ -1,0 +1,81 @@
+{% extends "base_html.html" %}
+{% load staticfiles %}
+
+{% block title %}Qwann{% block sub_title %}{% endblock %}{% endblock %}
+
+{% block navbar %}
+        <li class="{% block active_home %} {% endblock %}"> <a href="{% url 'erkan:index' %}">Accueil</a> </li>
+	<li class="{% block active_kholles%} {% endblock %}"> <a href="#TODO">Khôlles</a> </li>
+        <li class="{% block active_affiche%} {% endblock %}"> <a href="{% url 'affiche:index' %}">Affiches</a> </li>
+        <li class="{% block active_pad %} {% endblock %}"> <a href="{% url 'pad:index' %}">Pad</a> </li>
+        {% if user.is_authenticated %}
+        <li class="{% block active_agreg %} {% endblock %}"> <a href="{% url 'agreg:index' %}">Agreg</a> </li>
+        {% endif %}
+        <li> <a href="{% static "doc/cv.pdf" %}">CV</a> </li>
+        {% if user.is_authenticated %}
+            <li class="dropdown"> 
+                <a data-toggle="dropdown" href="#">{{ user.username }}<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                <li> <a href="{% url 'user:password_change' %}">Changer de mot de passe</a> </li>
+                <li> <a href="{% url 'user:logout' %}">Se déconnecter</a> </li>
+                </ul>
+            </li> 
+        {% else %}
+            <li class="{% block active_login %} {% endblock %}"> <a href="{% url 'user:login' %}">Se Connecter</a> </li>
+        {% endif %}
+{% endblock %} 
+
+{% block main_container %}
+    <div class="starter-template">
+        <div class="row">
+            <main class="col-xs-12 col-sm-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert message-{{message.tags}} alter-dismissible fade in" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <strong>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.DEBUG %}DEBUG : {% endif %}
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}Info : {% endif %}
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}Ayé ! {% endif %}
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}Ooops ! {% endif %}
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Attention ! {% endif %}
+                            </strong>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block content %}{% endblock %}
+	    </main>
+            <aside class="col-xs-12 col-sm-4">
+                {{message_title}}
+                {% block aside %}{% endblock %}
+	    </aside>
+        </div>
+    </div>
+{% endblock %}
+
+{% block foot %}
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <strong>Liens utiles</strong>
+                    <ul>
+                        <li><a href="https://github.com/ErkanNarmanli/">GitHub</a></li>
+                        <li><a href="https://git.eleves.ens.fr/u/narmanli">GitÉlèves (ENS)</a></li>
+                        <li><a href="{% url 'erkan:index' %}">Page de contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <strong>Pages amies</strong>
+                    <ul>
+                        <li><a href="http://evarin.fr/"><i>Le site d'Evarin</i>, par Robin Champenois</a></li>
+                        <li><a href="http://blogs.eleves.ens.fr/lenid/">Blog <i>le nid</i>, par Julie Beauté</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div><!-- /.container -->
+{% endblock %}
+
+{% block foot_copyrights %}
+    La totalité du contenu de ce site est sous licence libre CC0. <a href="https://fr.wikipedia.org/wiki/Licence_CC0">Plus d'infos.</a>
+{% endblock %}
