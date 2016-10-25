@@ -1,27 +1,20 @@
 {% extends "base_html.html" %}
 {% load staticfiles %}
 
-{% block title %}Qwann{% block sub_title %}{% endblock %}{% endblock %}
+{% block title %}Agreg{% block sub_title %}{% endblock %}{% endblock %}
 
 {% block navbar %}
-        <li class="{% block active_home %} {% endblock %}"> <a href="{% url 'erkan:index' %}">Accueil</a> </li>
-	<li class="{% block active_kholles%} {% endblock %}"> <a href="#TODO">Khôlles</a> </li>
-        <li class="{% block active_affiche%} {% endblock %}"> <a href="{% url 'affiche:index' %}">Affiches</a> </li>
-        <li class="{% block active_pad %} {% endblock %}"> <a href="{% url 'pad:index' %}">Pad</a> </li>
-        {% if user.is_authenticated %}
-        <li class="{% block active_agreg %} {% endblock %}"> <a href="{% url 'agreg:index' %}">Agreg</a> </li>
-        {% endif %}
-        <li> <a href="{% static "doc/cv.pdf" %}">CV</a> </li>
+        <li class="{% block active_home %} {% endblock %}"> <a href="{% url 'gestion:index' %}">Accueil</a> </li>
         {% if user.is_authenticated %}
             <li class="dropdown"> 
                 <a data-toggle="dropdown" href="#">{{ user.username }}<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                <li> <a href="{% url 'user:password_change' %}">Changer de mot de passe</a> </li>
-                <li> <a href="{% url 'user:logout' %}">Se déconnecter</a> </li>
+                <li> <a href="{% url 'gestion:password_change' %}">Changer de mot de passe</a> </li>
+                <li> <a href="{% url 'gestion:logout' %}">Se déconnecter</a> </li>
                 </ul>
             </li> 
         {% else %}
-            <li class="{% block active_login %} {% endblock %}"> <a href="{% url 'user:login' %}">Se Connecter</a> </li>
+            <li class="{% block active_login %} {% endblock %}"> <a href="{% url 'gestion:login' %}">Se Connecter</a> </li>
         {% endif %}
 {% endblock %} 
 
@@ -62,7 +55,6 @@
                     <ul>
                         <li><a href="https://github.com/ErkanNarmanli/">GitHub</a></li>
                         <li><a href="https://git.eleves.ens.fr/u/narmanli">GitÉlèves (ENS)</a></li>
-                        <li><a href="{% url 'erkan:index' %}">Page de contact</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-12 col-sm-4">
@@ -77,5 +69,5 @@
 {% endblock %}
 
 {% block foot_copyrights %}
-    La totalité du contenu de ce site est sous licence libre CC0. <a href="https://fr.wikipedia.org/wiki/Licence_CC0">Plus d'infos.</a>
+    La totalité du contenu de ce site est sous licence libre CC0. <a class="copy-link" href="https://fr.wikipedia.org/wiki/Licence_CC0">Plus d'infos.</a>
 {% endblock %}
