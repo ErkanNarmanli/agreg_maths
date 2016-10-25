@@ -1,0 +1,28 @@
+{% extends "gestion/user_form.html" %}
+
+{% block action_name %}{% url 'gestion:login' %}{% endblock %}
+{% block user_error %}L'identitfiant et le mot de passe ne correspondent pas !{% endblock %}
+
+{% block extra_form_input %}
+    <input type="hidden" name="next" value="{{ next }}" />
+{% endblock %}
+
+{% block user_aside_after %}
+    <hr/>
+    <p>Vous n'avez pas de compte utilisateur et vous souhaiteriez en créer un ?</p>
+    <form action="{% url 'gestion:create_user' %}" class="form-horizontal">
+        <input type="submit" value="Créer un compte" class="btn btn-default btn-block btn-lg">
+    </form>
+    <hr/>
+    <p>Vous avez déjà un compte utilisateur et vous avez oublié votre mot de passe ?</p>
+    <form action="{% url 'gestion:password_reset' %}" class="form-horizontal">
+        <input type="submit" value="Réinitialiser le mot de passe" class="btn btn-default btn-block btn-lg">
+    </form>
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+        /* Met le focus sur le champ user
+         * du formulaire de connexion */
+        $('#id_username').focus();
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "gestion/base_user.html" %}
+{% load bootstrap %}
+
+{% block section_title %}{{ sec_title }}{% endblock %}
+{% block content %}
+    {% if form.errors %}
+    <p class="text-danger">{% block user_error %}{% endblock %}</p>
+    {% endif %}
+    <form class="form-horizontal" method="post" action="{%block action_name%}{%endblock%}">
+        {% csrf_token %}
+        <fieldset>
+            {% for field in form %}
+                {{ field | bootstrap }}
+            {% endfor %}
+        </fieldset>
+        <div class="form-action">
+            <button type="submit" class="btn btn-primary pull-right">
+                {{ button }}
+            </button>
+            {% block extra_form_input %}{% endblock %}
+        </div>
+    </form>
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+        /* Met le focus sur le premier champ input
+         * du formulaire chargé */
+        $('form').eq(0).find('input').eq(1).focus();
+        /* NB : c'est eq(1) parce qu'il y a le csrf_token ;) */
+        /* NB : ATTENTION, le premier champ input n'est
+         * pas toujours le premier champs, ce code n'est
+         * pas toujours pertinent */
+    });
+    </script>
+{% endblock %}
+

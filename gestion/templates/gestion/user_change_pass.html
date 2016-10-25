@@ -1,0 +1,4 @@
+{% extends "gestion/user_form.html" %}
+
+{% block action_name %}{% url 'gestion:password_change' %}{% endblock %}
+{% block user_error %}Une erreur s'est produite, veuillez réessayer.{% endblock %}
