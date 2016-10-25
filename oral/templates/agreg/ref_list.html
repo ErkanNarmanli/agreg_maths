@@ -1,0 +1,29 @@
+{% extends "agreg/base_agreg.html"%}
+
+{% block ssub_title %} :: Références{% endblock %}
+
+{# CONTENT #}
+{% block content %}
+    <h1>Livres de référence</h1>
+    <ul>
+        {% for ref in ref_list %}
+        <li>
+            <a href="{% url 'agreg:ref_detail' ref.slug %}">
+                {{ ref.title }}
+            </a>
+            <span> par {{ ref.author }}</span>
+            <code>{{ ref.slug }}</code>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{# ASIDE #}
+{% block agreg_aside_before %}
+    {% if perms.agreg.add_reference and user.is_staff%}
+        <form action="{% url "admin:agreg_reference_add" %}" class="form-horizontal">
+            <input type="submit" value="Nouvelle référence" class="btn btn-default btn-block btn-lg">
+        </form>
+        <hr/>
+    {% endif %}
+{% endblock %}

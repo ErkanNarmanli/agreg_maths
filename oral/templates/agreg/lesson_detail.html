@@ -1,0 +1,47 @@
+{% extends "agreg/base_agreg.html" %}
+{% load agreg_extra %}
+{% load staticfiles %}
+
+{% block ssub_title %} :: {{ lesson.title }}{% endblock %}
+
+{% block extra_head %}
+    <link href="{% static "css/agreg.css" %}" rel="stylesheet">
+{% endblock %}
+{% block extra_script %}
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ lesson.title }}<code class="pull-right">{% if lesson.is_algebre %}algèbre {% else %}analyse {% endif %}{{ lesson.num }}</code></h1>
+    {% if lesson.jury %}
+    <h2>Rapport du jury</h2>
+        {{ lesson.jury | pandoc:"3" }}
+    {% endif %}
+    {% if lesson.remarks %}
+    <h2>Remarques</h2>
+        {{ lesson.remarks | pandoc:"3" }}
+    {% endif %}
+    {% if lesson.content %}
+    <h2>Leçon</h2>
+        <div id="lesson">
+        {{ lesson.content | content_pandoc:"1" }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block agreg_aside_after %}
+    <hr/>
+    {{ lesson.get_toc | safe }}
+{% endblock %}
+
+{% block agreg_aside_before %}
+    {% if perms.agreg.change_lesson and user.is_staff %}
+    <form action="{% url "admin:agreg_lesson_change" lesson.num %}" class="form-horizontal">
+        <input type="submit" value="Modifier la leçon" class="btn btn-default btn-block btn-lg">
+    </form>
+    <hr/>
+    {% endif %}
+{% endblock %}
+

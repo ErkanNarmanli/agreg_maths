@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block sub_title %} :: Agreg{% block ssub_title %}{% endblock %}{% endblock %}
+
+{% block active_agreg%}active{% endblock %}
+
+{% comment %}
+{% block extra_head %}
+    <link href="{% static "css/agreg.css" %}" rel="stylesheet">
+{% endblock %}
+{% endcomment %}
+
+{% block section_title %}
+    <a href="{% url 'agreg:index'%}">Agrégation</a> 
+{% endblock %}
+
+{% block aside %}
+    {% block agreg_aside_before %}{% endblock %}
+    <p>Une liste des mes développements et de mes leçons dans ma préparation de l'agrégation de mathématiques. La pluspart du contenu de ces pages ne sont pas de moi.</p>
+    {% block agreg_aside_after %}{% endblock %}
+{% endblock %}
+

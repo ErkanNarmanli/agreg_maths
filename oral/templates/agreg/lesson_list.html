@@ -1,0 +1,44 @@
+{% extends "agreg/base_agreg.html"%}
+
+{% block ssub_title %} :: liste{% endblock %}
+
+{# CONTENT #}
+{% block content %}
+    <h1>Leçons d'algèbre</h1>
+    <ul>
+        {% for lesson in lesson_list %}
+        {% if lesson.is_algebre %}
+        <li>
+            <a href="{% url 'agreg:lesson_detail' lesson.num %}">
+                {{ lesson.title }}
+            </a>
+            <code>{{ lesson.num }}</code>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+
+    <h1>Leçons d'analyse</h1>
+    <ul>
+        {% for lesson in lesson_list %}
+        {% if lesson.is_analyse %}
+        <li>
+            <a href="{% url 'agreg:lesson_detail' lesson.num %}">
+                {{ lesson.title }}
+            </a>
+            <code>{{ lesson.num }}</code>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{# ASIDE #}
+{% block agreg_aside_before %}
+    {% if perms.agreg.add_lesson and user.is_staff%}
+        <form action="{% url "admin:agreg_lesson_add" %}" class="form-horizontal">
+            <input type="submit" value="Nouvelle leçon" class="btn btn-default btn-block btn-lg">
+        </form>
+        <hr/>
+    {% endif %}
+{% endblock %}

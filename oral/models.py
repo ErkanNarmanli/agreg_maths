@@ -96,6 +96,7 @@ class Lesson(models.Model):
             related_name="lessons",
             blank=True,
         )
+    is_finished = models.BooleanField("Leçon terminée")
 
     def get_toc(self):
         html = convert(

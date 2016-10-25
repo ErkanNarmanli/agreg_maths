@@ -1,0 +1,29 @@
+{% extends "agreg/base_agreg.html" %}
+{% load agreg_extra %}
+{% load staticfiles %}
+
+{% block ssub_title %} :: {{ reference.title }}{% endblock %}
+
+{% block extra_script %}
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+{% endblock %}
+
+{% block content %}
+    <h2>{{ reference.title }}<code class="pull-right">{{ reference.slug }}</code></h2>
+    {% if reference.description %}
+    <h3>Description</h3>
+        {{ reference.description| pandoc:"4" }}
+    {% endif %}
+{% endblock %}
+
+{% block agreg_aside_before %}
+    {% if perms.agreg.change_reference and user.is_staff %}
+    <form action="{% url "admin:agreg_reference_change" reference.slug %}" class="form-horizontal">
+        <input type="submit" value="Modifier la référence" class="btn btn-default btn-block btn-lg">
+    </form>
+    <hr/>
+    {% endif %}
+{% endblock %}
+
