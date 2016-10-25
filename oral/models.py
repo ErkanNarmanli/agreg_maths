@@ -3,6 +3,11 @@ from django.db import models
 from bs4 import BeautifulSoup
 from pypandoc import convert
 
+CATEGORY_CHOICES = (
+        ('algebre', 'Algèbre et géométrie'),
+        ('analyse', 'Analyse et probabilités'),
+        ('informatique', 'Informatique'),
+    )
 
 class Reference(models.Model):
     title = models.CharField(
@@ -61,16 +66,22 @@ class LessonTemplate(models.Model):
             "Nom de la leçon",
             max_length=200,
         )
+    category = models.CharField(
+            "Catégorie",
+            choices=CATEGORY_CHOICES,
+            max_length=200,
+        )
+    is_for_info = models.BooleanField(
+            "Pour option info",
+            help_text="Cocher la case si la leçon fait partie des leçons"
+                      " sur lesquel peuvent être interrogés les agrégation de l'option info."
+                      " Cela concerne donc toutes les leçons d'informatique mais aussi certaines"
+                      " leçons d'algèbre et d'analyse.",
+        )
     jury = models.TextField(
             "Rapport du Jury",
             blank=True,
         )
-
-    def is_algebre(self):
-        return self.num < 200
-
-    def is_analyse(self):
-        return self.num >= 200
 
 
 class Lesson(models.Model):
