@@ -33,7 +33,7 @@ urlpatterns = [
         url('^password_change/$',
             auth_views.password_change,
             {   'template_name': 'gestion/user_change_pass.html',
-                'post_change_redirect': reverse_lazy('erkan:index'),
+                'post_change_redirect': reverse_lazy('gestion:index'),
                 'extra_context': {
                     'sec_title' : 'Changement de mot de passe',
                     'button'    : 'Modifier',

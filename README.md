@@ -25,6 +25,8 @@ Une référence est simplement la donnée d'un titre, auteur, année de publicat
 La quasi-intégralité du contenu (leçons, développements, commentaires, descriptions) est à rédiger par les utilisateurs selon les conventions markdown ([plus d'infos](https://fr.wikipedia.org/wiki/Markdown)) qui permettent, entre autre, d'inclure des mathématiques. Le texte est ensuite converti en html via l'outil `pandoc`. Chaque utilisateur peut avoir un préambule LaTeX personnalisé pour y définir ses macros.
 
 ### Autres fonctionnalités
-Il est possible d'exporter la plus part du contenu au format .pdf ou .tex pour pouvoir le réutiliser ailleurs ou l'imprimer.
+
+* Il est possible d'exporter la plus part du contenu au format .pdf ou .tex pour pouvoir le réutiliser ailleurs ou l'imprimer.
+* On peut voir l'état d'avancement dans l'écriture de ses leçons (ex: 42 leçons reste à faire ; 1 développement pour cette leçon, etc.). En fonction de l'option choisie, évidement. 
 
 

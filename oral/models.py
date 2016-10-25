@@ -97,6 +97,10 @@ class Lesson(models.Model):
             "Contenu de la leçon",
             blank=True,
         )
+    remarks = models.TextField(
+            "Mes remarques",
+            blank=True,
+        )
     developments = models.ManyToManyField(
             Development,
             related_name="lessons",

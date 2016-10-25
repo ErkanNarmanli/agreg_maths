@@ -4,7 +4,7 @@ from django import forms
 from agreg.settings import CREATE_USER_KEY
 
 class CreateUserForm(UserCreationForm):
-    key             = forms.CharField(
+    key = forms.CharField(
             label="Clée de sécurité",
             widget=forms.PasswordInput,
             help_text="Cette clée est fournie par l'administrateur du site. Pour en obtenir une veuillez le contacter."
