@@ -1,40 +1,64 @@
-{% extends "agreg/base_agreg.html"%}
+{% extends "base.html"%}
+{% load agreg_extra %}
+{% load staticfiles %}
 
-{% block ssub_title %} :: liste{% endblock %}
+{% block sub_title %} :: liste{% endblock %}
+
+{% block section_title %}
+Liste des leçons
+{% if page_user.username != user.username %}
+    (de {{ page_user.first_name}} {{page_user.last_name}} )
+{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+    <link href="{% static "css/oral.css" %}" rel="stylesheet">
+{% endblock %}
 
 {# CONTENT #}
 {% block content %}
     <h1>Leçons d'algèbre</h1>
-    <ul>
-        {% for lesson in lesson_list %}
-        {% if lesson.is_algebre %}
-        <li>
-            <a href="{% url 'agreg:lesson_detail' lesson.num %}">
-                {{ lesson.title }}
-            </a>
-            <code>{{ lesson.num }}</code>
-        </li>
-        {% endif %}
+    <table class="table lesson-list">
+        {% for lesson in algebre_lessons %}
+        <tr class="{% is_started_class lesson page_user %}">
+            <td><code>{{ lesson.num }}</code>&nbsp;&nbsp;
+            {% href_open_or_not lesson page_user %}
+            {{ lesson.title }}
+            {% href_close_or_not lesson page_user%}</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
 
     <h1>Leçons d'analyse</h1>
-    <ul>
-        {% for lesson in lesson_list %}
-        {% if lesson.is_analyse %}
-        <li>
-            <a href="{% url 'agreg:lesson_detail' lesson.num %}">
-                {{ lesson.title }}
-            </a>
-            <code>{{ lesson.num }}</code>
-        </li>
-        {% endif %}
+    <table class="table lesson-list">
+        {% for lesson in analyse_lessons %}
+        <tr class="{% is_started_class lesson page_user %}">
+            <td><code>{{ lesson.num }}</code>&nbsp;&nbsp;
+            {% href_open_or_not lesson page_user %}
+            {{ lesson.title }}
+            {% href_close_or_not lesson page_user%}</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
+
+    {% if is_info %}
+        <h1>Leçons d'informatique</h1>
+        <table class="table lesson-list">
+            {% for lesson in info_lessons %}
+            <tr class="{% is_started_class lesson page_user %}">
+                <td><code>{{ lesson.num }}</code>&nbsp;&nbsp;
+                {% href_open_or_not lesson page_user %}
+                {{ lesson.title }}
+                {% href_close_or_not lesson page_user%}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 {% endblock %}
 
 {# ASIDE #}
-{% block agreg_aside_before %}
+{% comment %}
+{% block aside %}
     {% if perms.agreg.add_lesson and user.is_staff%}
         <form action="{% url "admin:agreg_lesson_add" %}" class="form-horizontal">
             <input type="submit" value="Nouvelle leçon" class="btn btn-default btn-block btn-lg">
@@ -42,3 +66,4 @@
         <hr/>
     {% endif %}
 {% endblock %}
+{% endcomment %}

@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
+{% block active_login %} active {% endblock %}
+
 {% block aside %}
     {% block user_aside_before %}{% endblock %}
-    <p>Les comptes utilisateurs vous donnent accès à tout le contenu de cet site et vous permet de gérer vos leçons et vos développements. Pour créer un compte il est nécessaire d'avoir une clée ; pour l'obtenir il suffit de la demander auprès d'un administrateur..</p>
+    <p>Les comptes utilisateurs vous donnent accès à tout le contenu de cet site et vous permet de gérer vos leçons et vos développements. Pour créer un compte il est nécessaire d'avoir une clée ; pour l'obtenir il suffit de la demander auprès d'un administrateur.</p>
     {% block user_aside_after %}{% endblock %}
 {% endblock %}

@@ -10,6 +10,12 @@
         {% csrf_token %}
         <fieldset>
             {% for field in form %}
+                {% if field.name == "username" %}
+                <h2>Information Personelles</h2>
+                {% endif %}
+                {% if field.name == "password1" %}
+                <h2>Sécurité</h2>
+                {% endif %}
                 {{ field | bootstrap }}
             {% endfor %}
         </fieldset>
@@ -33,3 +39,7 @@
     </script>
 {% endblock %}
 
+{% block user_aside_after %}
+    <hr/>
+    <p>Il va sans dire que l'ensemble des informations personnelles ne sont pas vouées à être diffusée ou vendues. Certaines de ces informations peuvent toutefois être rendues visibles <strong>par les autres utilisateurs, et eux seuls</strong>. En accord avec les règles imposées par la CNIL il est possible à tout moment de demander la modification, la rectification ou la suppression de ses données personnelles.</p>
+{% endblock %}

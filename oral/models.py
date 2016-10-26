@@ -1,13 +1,22 @@
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from bs4 import BeautifulSoup
 from pypandoc import convert
+from datetime import datetime
 
 CATEGORY_CHOICES = (
         ('algebre', 'Algèbre et géométrie'),
         ('analyse', 'Analyse et probabilités'),
         ('informatique', 'Informatique'),
     )
+
+def current_year():
+    now = datetime.now()
+    if now.month <= 7:
+        return now.year
+    else:
+        return(now.year + 1)
 
 class Reference(models.Model):
     title = models.CharField(
@@ -56,11 +65,13 @@ class Development(models.Model):
         verbose_name = "développement"
         verbose_name_plural = "développements"
 
+    def __str__(self):
+        return self.title
+
 
 class LessonTemplate(models.Model):
     num = models.PositiveSmallIntegerField(
             "Numéro de la leçon",
-            unique_for_year=True,
         )
     title = models.CharField(
             "Nom de la leçon",
@@ -82,6 +93,30 @@ class LessonTemplate(models.Model):
             "Rapport du Jury",
             blank=True,
         )
+    year = models.PositiveSmallIntegerField(
+                "Année",
+                validators=[MaxValueValidator(2042), MinValueValidator(2005)],
+                help_text="Année pendant laquelle est passée le concours."
+                          " Par exemple en 2016-2017 mettre : 2017",
+            )
+    def has_effective(self, username):
+        effectives = self.effective_lessons
+        user = User.objects.get(username=username)
+        liste = effectives.filter(author=user)
+        return (liste.exists())
+
+    def get_effective(self, username):
+        effectives = self.effective_lessons
+        user = User.objects.get(username=username)
+        liste = effectives.filter(author=user)
+        return liste.first()
+
+    class Meta:
+        verbose_name = "template de leçon"
+        verbose_name_plural = "templates de leçons"
+
+    def __str__(self):
+        return "%d | %d | %s" % (self.year, self.num, self.title)
 
 
 class Lesson(models.Model):
@@ -133,3 +168,8 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = "leçon"
         verbose_name_plural = "leçons"
+
+    def __str__(self):
+        return "%s | %d | %s" % (self.author.username, 
+                                 self.template.num, 
+                                 self.template.title)

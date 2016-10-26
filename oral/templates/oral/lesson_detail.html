@@ -1,8 +1,8 @@
-{% extends "oral/base_agreg.html" %}
+{% extends "base.html" %}
 {% load agreg_extra %}
 {% load staticfiles %}
 
-{% block ssub_title %} :: {{ lesson.title }}{% endblock %}
+{% block sub_title %} :: {{ lesson.template.title }}{% endblock %}
 
 {% block extra_head %}
     <link href="{% static "css/oral.css" %}" rel="stylesheet">
@@ -13,8 +13,11 @@
 </script>
 {% endblock %}
 
+{% block section_title %}
+        <code>{{ lesson.template.num }}</code> {{ lesson.template.title }}
+{% endblock %}
+
 {% block content %}
-        <h1>{{ lesson.template.title }}<code class="pull-right">{{ lesson.template.num }}</code></h1>
         {% if lesson.template.jury %}
         <h2>Rapport du jury</h2>
             {{ lesson.template.jury | pandoc:"3" }}
@@ -23,11 +26,31 @@
         <h2>Remarques</h2>
             {{ lesson.remarks | pandoc:"3" }}
         {% endif %}
+        <h2>Références</h2>
+        {% if lesson.references.exists %}
+            <ul>
+            {% for dev in lesson.references.all %}
+                <li>{{ dev }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            Il n'y a pas encore de référence pour cette leçon.
+        {% endif %}
         {% if lesson.content %}
-        <h2>Leçon</h2>
+        <h1>Leçon</h1>
             <div id="lesson">
             {{ lesson.content | content_pandoc:"1" }}
             </div>
+        {% endif %}
+        <h1>Développements</h1>
+        {% if lesson.developments.exists %}
+            <ul>
+            {% for dev in lesson.developments.all %}
+                <li>{{ dev }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            Il n'y a pas encore de développement pour cette leçon.
         {% endif %}
 {% endblock %}
 
@@ -36,13 +59,50 @@
         {{ lesson.get_toc | safe }}
 {% endblock %}
 
-{% comment %}
-{% block agreg_aside_before %}
-        {% if perms.agreg.change_lesson and user.is_staff %}
-        <form action="{% url "admin:agreg_lesson_change" lesson.num %}" class="form-horizontal">
+{% block aside %}
+        {% if perms.oral.change_lesson and user.is_staff %}
+        <form action="{% url "admin:oral_lesson_change" lesson.id %}" class="form-horizontal">
             <input type="submit" value="Modifier la leçon" class="btn btn-default btn-block btn-lg">
         </form>
         <hr/>
         {% endif %}
+        <table class="table table-striped">
+            {% if lesson.is_finished %}
+            <tr class="success">
+                <td><strong>État</strong></td>
+                <td><strong>Terminé !</strong></td>
+            </tr>
+            {% else %}
+            <tr class="danger">
+                <td><strong>État</strong></td>
+                <td><strong>En cours.</strong></td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td><strong>Auteur</strong></td>
+                <td>{% if lesson.author.username == user.username %} Vous {% else %} {{lesson.author.first_name}} {{ lesson.author.last_name }} {% endif %}</td>
+            </tr>
+            <tr>
+                <td><strong>Année</strong></td>
+                <td>{{ lesson.template.year }}</td>
+            </tr>
+            <tr>
+                <td><strong>Category</strong></td>
+                <td>
+                    {% if lesson.template.category == "informatique" %}
+                        Informatique
+                    {% elif lesson.template.category == "analyse" %}
+                        Analyse et probabilités
+                    {% else %}
+                        Algèbre et géométrie
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td><strong># développements</strong></td>
+                <td>{{ lesson.developments.count }}</td>
+            </tr>
+        </table>
+        <hr/>
+        {{ lesson.get_toc | safe }}
 {% endblock %}
-{% endcomment %}

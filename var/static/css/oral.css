@@ -1,10 +1,31 @@
 #lesson h1 {
-    border-bottom   : 2px solid #000000 ;
-    padding-bottom  : 2px;
+    border-bottom   : 2px solid #E8A648 ;
+    padding-bottom  : 5px ;
+    font-size: 30px;
+}
+
+#lesson h1 > .header-section-number {
+    background-color : #E8A648;
+    padding-right    : 8px;
+    padding-left     : 8px;
+    color : #FFF;
+}
+
+
+#lesson h2 {
+    border-bottom   : 2px solid #999 ;
+    padding-bottom  : 3px;
     font-size: x-large;
 }
 
-#lesson h2 {
+#lesson h2 > .header-section-number {
+    background-color : #999;
+    padding-right    : 4px;
+    padding-left     : 4px;
+    color : #FFF;
+}
+
+#lesson h3 {
     border-bottom   : 0px solid #000000 ;
     text-decoration: underline;
     padding-bottom  : 0px;
@@ -14,3 +35,12 @@
 #contentTOC > ul {
     padding-left: 15px;
 }
+
+.lesson-list tr.not-yet {
+    color : #BBB;
+}
+
+.lesson-list tr.started a {
+    color : inherit;
+}
+
