@@ -30,7 +30,7 @@
         {% if lesson.references.exists %}
             <ul>
             {% for dev in lesson.references.all %}
-                <li>{{ dev }}</li>
+            <li>{{ dev.title }} par <i>{{ dev.author }}</i></li>
             {% endfor %}
             </ul>
         {% else %}
@@ -87,7 +87,7 @@
                 <td>{{ lesson.template.year }}</td>
             </tr>
             <tr>
-                <td><strong>Category</strong></td>
+                <td><strong>Catégorie</strong></td>
                 <td>
                     {% if lesson.template.category == "informatique" %}
                         Informatique
