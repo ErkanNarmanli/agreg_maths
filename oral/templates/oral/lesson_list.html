@@ -25,6 +25,9 @@ Liste des leçons
             {% href_open_or_not lesson page_user %}
             {{ lesson.title }}
             {% href_close_or_not lesson page_user%}</td>
+            {% if user == page_user %}
+            <td class="create_lesson">{% put_create_link lesson page_user %}</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
@@ -37,6 +40,9 @@ Liste des leçons
             {% href_open_or_not lesson page_user %}
             {{ lesson.title }}
             {% href_close_or_not lesson page_user%}</td>
+            {% if user == page_user %}
+            <td class="create_lesson">{% put_create_link lesson page_user %}</td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
@@ -50,6 +56,9 @@ Liste des leçons
                 {% href_open_or_not lesson page_user %}
                 {{ lesson.title }}
                 {% href_close_or_not lesson page_user%}</td>
+                {% if user == page_user %}
+                <td class="create_lesson">{% put_create_link lesson page_user %}</td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>

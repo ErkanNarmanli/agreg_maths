@@ -1,0 +1,9 @@
+{% load bootstrap %}
+<form id="remarks-form" class="form-horizontal" method="post">
+    {% csrf_token %}
+    <fieldset>
+    {% for field in form %}
+        {{ field | bootstrap }}
+    {% endfor %}
+    </fieldset>
+</form>

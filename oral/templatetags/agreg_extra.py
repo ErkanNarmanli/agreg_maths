@@ -64,3 +64,18 @@ def href_close_or_not(lesson, user):
         return mark_safe("</a>")
     else:
         return ""
+
+@register.simple_tag
+def put_create_link(lesson, user):
+    effectives = lesson.effective_lessons
+    liste = effectives.filter(author=user)
+    if liste.exists():
+        return ""
+    else:
+        return mark_safe(
+                """<a href="%s">Créer</a>""" % reverse_lazy(
+                                                    'oral:create_lesson',
+                                                    args=(user.username, lesson.num)
+                                                    )
+                )
+

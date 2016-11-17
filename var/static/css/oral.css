@@ -44,3 +44,13 @@
     color : inherit;
 }
 
+.lesson-list td.create_lesson {
+    text-align: right;
+}
+
+.oral-form-icon {
+    color : #E8A648;
+    font-size : 20px;
+    margin-top : 13px;
+    cursor : pointer;
+}

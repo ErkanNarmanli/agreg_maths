@@ -1,4 +1,5 @@
 from django.contrib import admin
+from rules.contrib.admin import ObjectPermissionsModelAdmin
 from .models import Lesson, LessonTemplate, Reference, Development,\
                     LessonDevelopment
 
@@ -18,7 +19,7 @@ class LessonDevelopmentInline(admin.TabularInline):
     extra = 0
 
 
-class LessonAdmin(admin.ModelAdmin):
+class LessonAdmin(ObjectPermissionsModelAdmin):
     inlines = [LessonDevelopmentInline]
 
 admin.site.register(LessonTemplate, LessonTemplateAdmin)

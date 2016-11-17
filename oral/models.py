@@ -170,7 +170,11 @@ class Lesson(models.Model):
                                 ],
                 )
         soup = BeautifulSoup(html, "lxml")
-        return soup.find(id="contentTOC").prettify()
+        toc = soup.find(id="contentTOC")
+        if toc is None:
+            return ""
+        else:
+            return toc.prettify()
 
     class Meta:
         verbose_name = "leçon"

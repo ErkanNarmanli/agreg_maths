@@ -7,11 +7,6 @@
 {% block extra_head %}
     <link href="{% static "css/oral.css" %}" rel="stylesheet">
 {% endblock %}
-{% block extra_script %}
-<script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-{% endblock %}
 
 {% block section_title %}
         <code>{{ lesson.template.num }}</code> {{ lesson.template.title }}
@@ -22,10 +17,9 @@
         <h2>Rapport du jury</h2>
             {{ lesson.template.jury | pandoc:"3" }}
         {% endif %}
-        {% if lesson.remarks %}
-        <h2>Remarques</h2>
-            {{ lesson.remarks | pandoc:"3" }}
-        {% endif %}
+        <h2>Remarques<span id="remarks_button" class="glyphicon pull-right oral-form-icon"></span></span></h2>
+        <div id='remarks'>
+        </div>
         <h2>Références</h2>
         {% if lesson.references.exists %}
             <ul>
@@ -34,14 +28,11 @@
             {% endfor %}
             </ul>
         {% else %}
-            Il n'y a pas encore de référence pour cette leçon.
+            <p>Il n'y a pas encore de référence pour cette leçon.</p>
         {% endif %}
-        {% if lesson.content %}
-        <h1>Leçon</h1>
+        <h1>Leçon<span id="lesson_button" class="glyphicon pull-right oral-form-icon"></span></span></h1>
             <div id="lesson">
-            {{ lesson.content | content_pandoc:"1" }}
             </div>
-        {% endif %}
         <h1>Développements</h1>
         {% if lesson.developments.exists %}
             <ul>
@@ -50,7 +41,7 @@
             {% endfor %}
             </ul>
         {% else %}
-            Il n'y a pas encore de développement pour cette leçon.
+            <p>Il n'y a pas encore de développement pour cette leçon.</p>
         {% endif %}
 {% endblock %}
 
@@ -80,7 +71,7 @@
             {% endif %}
             <tr>
                 <td><strong>Auteur</strong></td>
-                <td>{% if lesson.author.username == user.username %} Vous {% else %} {{lesson.author.first_name}} {{ lesson.author.last_name }} {% endif %}</td>
+                <td>{% if lesson.author.username == user.username %}Toi{% else %} {{lesson.author.first_name}} {{ lesson.author.last_name }} {% endif %}</td>
             </tr>
             <tr>
                 <td><strong>Année</strong></td>
@@ -99,10 +90,30 @@
                 </td>
             </tr>
             <tr>
-                <td><strong># développements</strong></td>
+                <td><strong>nb dév.</strong></td>
                 <td>{{ lesson.developments.count }}</td>
             </tr>
         </table>
         <hr/>
-        {{ lesson.get_toc | safe }}
+        <div id="toc">
+        </div>
+{% endblock %}
+
+{% block extra_script %}
+    <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script src="{% static "jquery/jquery-3.1.0.min.js" %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        /* On définit ici les variables dont on a besoin pour lesson_detail.js */
+        var content_url = "{% url 'oral:ajax_lesson_field' lesson.author.username lesson.template.num 'content' %}";
+        var remarks_url = "{% url 'oral:ajax_lesson_field' lesson.author.username lesson.template.num 'remarks' %}";
+        var toc_url = "{% url 'oral:ajax_lesson_toc' lesson.author.username lesson.template.num %}";
+        var update_content_url = "{% url 'oral:ajax_lesson_update_content' lesson.author.username lesson.template.num %}";
+        var update_remarks_url = "{% url 'oral:ajax_lesson_update_remarks' lesson.author.username lesson.template.num %}";
+        var empty_content_message = "<p>La leçon est vide pour le moment.</p>";
+        var empty_toc_message = "<p>Pas de sommaire à afficher</p>";
+        var empty_remarks_message = "<p>Pas de remaque personnelle pour le moment<p>";
+    </script>
+    <script src="{% static "js/lesson_detail.js" %}" type="text/javascript"></script>
 {% endblock %}
