@@ -5,55 +5,51 @@
 
 {% has_perm 'oral.change_lesson' user lesson as can_change_lesson %}
 
-{% block sub_title %} :: {{ lesson.template.title }}{% endblock %}
+{% block sub_title %} :: {{ development.title }}{% endblock %}
 
 {% block extra_head %}
     <link href="{% static "css/oral.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block section_title %}
-        <code>{{ lesson.template.num }}</code> {{ lesson.template.title }}
+        {{ development.title }}
 {% endblock %}
 
 {% block content %}
-        {% if lesson.template.jury %}
-        <h2>Rapport du jury</h2>
-            {{ lesson.template.jury | pandoc:"3" }}
-        {% endif %}
-        <h2>Remarques<span id="remarks_button" class="glyphicon pull-right oral-form-icon"></span></span></h2>
+        <h2>Mes remarques<span id="remarks_button" class="glyphicon pull-right oral-form-icon"></span></span></h2>
+        TODO
         <div id='remarks'>
         </div>
         <h2>Références</h2>
-        {% if lesson.references.exists %}
+        {% if developement.references.exists %}
             <ul>
-            {% for dev in lesson.references.all %}
-            <li>{{ dev.title }} par <i>{{ dev.author }}</i></li>
+            {% for ref in development.references.all %}
+            <li>{{ ref.title }} par <i>{{ ref.author }}</i></li>
             {% endfor %}
             </ul>
         {% else %}
-            <p>Il n'y a pas encore de référence pour cette leçon.</p>
+            <p>Il n'y a pas encore de référence pour ce developpement !</p>
         {% endif %}
-        <h1>Leçon<span id="lesson_button" class="glyphicon pull-right oral-form-icon"></span></span></h1>
+        <h1>Développement<span id="lesson_button" class="glyphicon pull-right oral-form-icon"></span></span></h1>
             <div id="lesson">
+                {{ development.content | content_pandoc:"1" }}
             </div>
-        <h1>Développements</h1>
-        {% if developments.exists %}
-            <ul>
-            {% for dev in developments.all%}
-                <li>{{ dev }}</li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>Il n'y a pas encore de développement pour cette leçon.</p>
-        {% endif %}
+        <h2>Je m'en sert dans...</h2>
+        TODO
 {% endblock %}
 
+{% comment %}
 {% block agreg_aside_after %}
         <hr/>
         {{ lesson.get_toc | safe }}
 {% endblock %}
+{% endcomment %}
 
 {% block aside %}
+    {% if development.document %}
+        <a href="{{development.document.url}}">Fichier associé</a>
+    {% endif %}
+    {% comment %}
         {% if can_change_lesson and user.is_staff %}
         <form action="{% url "admin:oral_lesson_change" lesson.id %}" class="form-horizontal">
             <input type="submit" value="Modifier la leçon" class="btn btn-default btn-block btn-lg">
@@ -100,12 +96,14 @@
         <hr/>
         <div id="toc">
         </div>
+{% endcomment %}
 {% endblock %}
 
 {% block extra_script %}
     <script type="text/javascript" async
     src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
+    {% comment %}
     <script src="{% static "jquery/jquery-3.1.0.min.js" %}" type="text/javascript"></script>
     <script type="text/javascript">
         /* On définit ici les variables dont on a besoin pour lesson_detail.js */
@@ -119,4 +117,5 @@
         var empty_remarks_message = "<p>Pas de remaque personnelle pour le moment<p>";
     </script>
     <script src="{% static "js/lesson_detail.js" %}" type="text/javascript"></script>
+    {% endcomment %}
 {% endblock %}

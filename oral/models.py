@@ -62,6 +62,14 @@ class Development(models.Model):
             related_name="developments",
             blank=True,
         )
+    content = models.TextField(
+            "Contenu du developpement",
+            blank=True,
+        )
+    document = models.FileField(
+            upload_to='dev/',
+            blank=True,
+        )
 
     class Meta:
         verbose_name = "développement"
@@ -141,12 +149,6 @@ class Lesson(models.Model):
             "Mes remarques",
             blank=True,
         )
-    developments = models.ManyToManyField(
-            Development,
-            related_name="lessons",
-            through="LessonDevelopment",
-            blank=True,
-        )
     references = models.ManyToManyField(
             Reference,
             related_name="lessons",
@@ -185,23 +187,31 @@ class Lesson(models.Model):
                                  self.template.num,
                                  self.template.title)
 
-
-class LessonDevelopment(models.Model):
-    development = models.ForeignKey(Development)
-    lesson = models.ForeignKey(Lesson)
+class EffectiveDevelopment(models.Model):
+    development = models.ForeignKey(
+            Development,
+            related_name="effectiveUses",
+            blank=True,
+        )
+    lessons = models.ManyToManyField(
+            LessonTemplate,
+            related_name="allDevs",
+            help_text="Ajouter ici toutes les leçons auxquelles ce developpment"
+                      " sera présenté.",
+            blank=True,
+            )
+    user = models.ForeignKey(User)
     remarks = models.TextField("Remarques personnelles concernant"
                                " le développement.")
 
     class Meta:
-        verbose_name = "developpement pour leçon"
-        verbose_name_plural = "developpements pour leçon"
+        verbose_name = "affectation de développement"
+        verbose_name_plural = "affectation de développement"
 
     def __str__(self):
-        return "%s -> %s | %d" % (self.development.title,
-                                  self.lesson.author.username,
-                                  self.lesson.template.num
+        return "%s -> %s " % (self.development.title,
+                                  self.user.username,
                                   )
-
 
 # class LessonReference(models.Models):
 #     reference = models.ForeignKey(Reference)

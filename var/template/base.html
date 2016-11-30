@@ -4,6 +4,7 @@
 {% block title %}Agreg{% block sub_title %}{% endblock %}{% endblock %}
 
 {% block navbar %}
+<li class="{% block active_my_lessons%} {% endblock %}"> <a href="{% url 'oral:lessons' user.username %}">Mes leçons</a></li>
         <li class="{% block active_home %} {% endblock %}"> <a href="{% url 'gestion:index' %}">Accueil</a> </li>
         {% if user.is_authenticated %}
             <li class="dropdown"> 
@@ -43,6 +44,9 @@
             <aside class="col-xs-12 col-sm-4">
                 {{message_title}}
                 {% block aside %}{% endblock %}
+                {% block aside_cookies %}
+                    <p>Ce site à besoin de cookies pour fonctionner. Les cookies n'ont besoin d'être conservés que pendant une session et peuvent ensuite être supprimés ; il ne servent qu'à se souvenir que vous êtes connectés et à valider les formulaires.</p>
+                {% endblock %}
 	    </aside>
         </div>
     </div>
@@ -56,13 +60,7 @@
                     <ul>
                         <li><a href="https://github.com/ErkanNarmanli/">GitHub</a></li>
                         <li><a href="https://git.eleves.ens.fr/u/narmanli">GitÉlèves (ENS)</a></li>
-                    </ul>
-                </div>
-                <div class="col-xs-12 col-sm-4">
-                    <strong>Pages amies</strong>
-                    <ul>
-                        <li><a href="http://evarin.fr/"><i>Le site d'Evarin</i>, par Robin Champenois</a></li>
-                        <li><a href="http://blogs.eleves.ens.fr/lenid/">Blog <i>le nid</i>, par Julie Beauté</a></li>
+                        <li><a href="{% url 'oral:devlist' %}">Développements</a></li>
                     </ul>
                 </div>
             </div>

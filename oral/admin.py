@@ -1,7 +1,7 @@
 from django.contrib import admin
 from rules.contrib.admin import ObjectPermissionsModelAdmin
 from .models import Lesson, LessonTemplate, Reference, Development,\
-                    LessonDevelopment
+                EffectiveDevelopment
 
 
 class LessonTemplateAdmin(admin.ModelAdmin):
@@ -14,15 +14,11 @@ class ReferenceAdmin(admin.ModelAdmin):
     ordering = ['title']
 
 
-class LessonDevelopmentInline(admin.TabularInline):
-    model = LessonDevelopment
-    extra = 0
-
-
 class LessonAdmin(ObjectPermissionsModelAdmin):
-    inlines = [LessonDevelopmentInline]
+    pass
 
 admin.site.register(LessonTemplate, LessonTemplateAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Reference, ReferenceAdmin)
 admin.site.register(Development)
+admin.site.register(EffectiveDevelopment)
