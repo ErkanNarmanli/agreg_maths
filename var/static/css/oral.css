@@ -54,3 +54,8 @@
     margin-top : 13px;
     cursor : pointer;
 }
+
+ .dev_link {
+    color : #E8A648;
+    font-weight: bold;
+ }
