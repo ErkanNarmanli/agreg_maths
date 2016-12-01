@@ -4,6 +4,10 @@
 
 {% block sub_title %} :: liste{% endblock %}
 
+{% block active_my_lessons %}
+    {% if page_user.username == user.username %}active{% endif %}
+{% endblock %}
+
 {% block section_title %}
 Liste des leçons
 {% if page_user.username != user.username %}

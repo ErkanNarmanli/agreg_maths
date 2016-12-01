@@ -2,7 +2,7 @@ Vagrantfile
 *.pyc
 *.swp
 db.sqlite3
-qwann_fr/settings.py
+agreg/settings.py
 *.json
 .vagrant/*
 var/static/doc/*

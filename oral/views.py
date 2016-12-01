@@ -3,12 +3,14 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import DetailView, TemplateView, UpdateView
 from rules.contrib.views import PermissionRequiredMixin
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.views import View
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
-from .models import Lesson, LessonTemplate
+from .models import Lesson, LessonTemplate, EffectiveDevelopment, Development
 
-
+@method_decorator(login_required, name='dispatch')
 class LessonCreate(View):
     def get(self, request, username, template_num):
         page_user = get_object_or_404(User, username=username)
@@ -44,6 +46,7 @@ class LessonCreate(View):
                                             ))
 
 
+@method_decorator(login_required, name='dispatch')
 class LessonList(TemplateView):
     template_name = "oral/lesson_list.html"
 
@@ -72,8 +75,21 @@ class LessonList(TemplateView):
             context['info_lessons'] = info_lessons
         return context
 
+
+@method_decorator(login_required, name='dispatch')
+class DevList(ListView):
+    model = Development
+    template_name = "oral/dev_list.html"
+    context_object_name = 'dev_list'
  
- 
+
+@method_decorator(login_required, name='dispatch')
+class DevDetail(DetailView):
+    template_name = "oral/dev_detail.html"
+    model = Development
+
+
+@method_decorator(login_required, name='dispatch')
 class LessonDetail(DetailView):
     template_name = "oral/lesson_detail.html"
     
@@ -81,6 +97,15 @@ class LessonDetail(DetailView):
         self.page_user = get_object_or_404(User, username=self.args[0])
         self.template = get_object_or_404(LessonTemplate, num=self.args[1], year=self.page_user.profil.year)
         return get_object_or_404(Lesson, author=self.page_user, template=self.template)
+
+    def get_context_data(self, **kwargs):
+        context = super(LessonDetail, self).get_context_data(**kwargs)
+        page_user = get_object_or_404(User, username=self.args[0])
+        template = get_object_or_404(LessonTemplate, num=self.args[1], year=self.page_user.profil.year)
+        context['developments'] = template.allDevs.filter(
+                                                        user=page_user,
+                                                        )
+        return context
 
 class AjaxLessonUpdateContent(PermissionRequiredMixin, UpdateView):
     # permission

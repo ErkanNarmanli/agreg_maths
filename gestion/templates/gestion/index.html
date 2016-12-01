@@ -7,8 +7,17 @@
 {% block active_home %}active{% endblock %}
 
 {% block content %}
-    <h1>Ça fonctionne !</h1>
-    <p>Je suis étudiant au département de mathématiques à l'<a href="http://www.ens.fr">École normale supérieure</a> de Paris. Je prépare actuellement l'agrégation de mathématiques à l'<a href="http://www.ens-cachan.fr">ENS Cachan</a>.</p>
+    <h1>Bienvenue !</h1>
+    {% if user.is_authenticated %}
+    <p>En attendant de pondre une interface plus jolie, voilà une liste de liens pratiques :
+        <ul>
+            <li><a href="{% url 'oral:lessons' user.username %}">Mes leçons</a></li>
+            <li><a href="{% url 'oral:devlist' %}">Tous les développements</a></li>
+        <ul>
+    </p>
+    {% else %}
+        <p>Bonjour, ce site web est destiné aux étudiants préparant l'agrégation à l'ENS de Cachan. Si c'est le cas vous avez du recevoir une ckef de sécurité vous permettant de créer un compte à <a href="{% url "gestion:create_user" %}">cette adresse</a>, si ce n'est pas le cas vous pouvez envoyer un mail aux administrat-rice-eur-s du site. Si vous avez déjà un compte vous pouvez vous connecter à <a href="{% url "gestion:login"%}">cette adresse</a>.</p>
+    {% endif %}
 {% endblock %}
 
 {% block aside %}
