@@ -1,14 +1,14 @@
 from django.http.response import HttpResponseRedirect
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import DetailView, TemplateView, UpdateView
+from django.views.generic import DetailView, TemplateView, UpdateView, ListView
 from rules.contrib.views import PermissionRequiredMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.views import View
+from django.views.generic.base import View
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.models import User
-from .models import Lesson, LessonTemplate, EffectiveDevelopment, Development
+from .models import Lesson, LessonTemplate, Development
 
 @method_decorator(login_required, name='dispatch')
 class LessonCreate(View):
