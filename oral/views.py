@@ -1,8 +1,7 @@
-from django.http import HttpResponse
 from django.http.response import HttpResponseRedirect
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, DetailView, TemplateView, UpdateView
+from django.views.generic import DetailView, TemplateView, UpdateView
 from rules.contrib.views import PermissionRequiredMixin
 from django.views import View
 from django.core.urlresolvers import reverse_lazy
@@ -14,7 +13,11 @@ class LessonCreate(View):
     def get(self, request, username, template_num):
         page_user = get_object_or_404(User, username=username)
         if request.user.username == page_user.username:
-            template = get_object_or_404(LessonTemplate, num=template_num, year=page_user.profil.year)
+            template = get_object_or_404(
+                    LessonTemplate,
+                    num=template_num,
+                    year=page_user.profil.year
+                    )
             if page_user.lessons.filter(template=template):
                 messages.error(request, "Nope, la leçon existe déjà")
                 return HttpResponseRedirect(reverse_lazy(
@@ -29,9 +32,10 @@ class LessonCreate(View):
                     )
                 messages.success(request, "La leçon a été créé !")
                 return HttpResponseRedirect(reverse_lazy(
-                                                "oral:detail",
-                                                args=[request.user.username, str(template_num)],
-                                                ))
+                                            "oral:detail",
+                                            args=[request.user.username,
+                                                  str(template_num)],
+                                            ))
         else:
             messages.error(request, "Nope, c'est pas à toi, ça !")
             return HttpResponseRedirect(reverse_lazy(
@@ -49,12 +53,14 @@ class LessonList(TemplateView):
         is_info = (page_user.profil.option == 'D')
         user_year = page_user.profil.year
         algebre_lessons = LessonTemplate.objects.filter(year=user_year,
-                                                       category='algebre',)
+                                                        category='algebre',)
         analyse_lessons = LessonTemplate.objects.filter(year=user_year,
-                                                       category='analyse')
+                                                        category='analyse')
         if is_info:
-            algebre_lessons = algebre_lessons.filter(is_for_info=True).order_by('num')
-            analyse_lessons = analyse_lessons.filter(is_for_info=True).order_by('num')
+            algebre_lessons = algebre_lessons.filter(is_for_info=True) \
+                                             .order_by('num')
+            analyse_lessons = analyse_lessons.filter(is_for_info=True) \
+                                             .order_by('num')
             info_lessons = LessonTemplate.objects.filter(year=user_year,
                                                         category='informatique',)
             info_lessons = info_lessons.order_by('num')
