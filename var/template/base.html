@@ -4,7 +4,9 @@
 {% block title %}Agreg{% block sub_title %}{% endblock %}{% endblock %}
 
 {% block navbar %}
+{% if user.is_authenticated %}
 <li class="{% block active_my_lessons%} {% endblock %}"> <a href="{% url 'oral:lessons' user.username %}">Mes leçons</a></li>
+{% endif %}
         <li class="{% block active_home %} {% endblock %}"> <a href="{% url 'gestion:index' %}">Accueil</a> </li>
         {% if user.is_authenticated %}
             <li class="dropdown"> 
