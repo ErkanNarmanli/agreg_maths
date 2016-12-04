@@ -44,6 +44,7 @@ class CreateUserForm(UserCreationForm):
         profil_year = self.cleaned_data["year"]
         profil_option = self.cleaned_data["option"]
         if commit:
+            user.is_staff = True
             user.save()
             profil = Profil(user=user, year=profil_year, option=profil_option)
             profil.save()
