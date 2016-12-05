@@ -41,6 +41,7 @@ jQuery(document).ready(function() {
     function content_update_view() {
         if(lesson_button.hasClass(edit_class)) {
             lesson_div.load(update_content_url);
+            //$('id_content').textareaAutoSize();  N'a pas l'air de fonctionne :(
         } else {
                 var csrf_value  = $('#content-form').find('[name=csrfmiddlewaretoken]').val();
                 var content_value = $('#id_content').val();

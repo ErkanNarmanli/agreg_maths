@@ -115,6 +115,7 @@
     src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
     <script src="{% static "jquery/jquery-3.1.0.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/jquery.textarea_autosize.js" %}" type="text/javascript"></script>
     <script type="text/javascript">
         /* On définit ici les variables dont on a besoin pour lesson_detail.js */
         var content_url = "{% url 'oral:ajax_lesson_field' lesson.author.username lesson.template.num 'content' %}";
