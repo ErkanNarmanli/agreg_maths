@@ -57,12 +57,21 @@
 {% block foot %}
         <div class="container">
             <div class="row">
+                {% if user.is_authenticated %}
+                <div class="col-xs-12 col-sm-4">
+                    <strong>Raccourcis</strong>
+                    <ul>
+                        <li><a href="{% url 'oral:devlist' %}">Développements</a></li>
+                        <li><a href="{% url 'oral:lessons' user.username %}">Mes leçons</a></li>
+                    </ul>
+                </div>
+                {% endif %}
                 <div class="col-xs-12 col-sm-4">
                     <strong>Liens utiles</strong>
                     <ul>
                         <li><a href="https://github.com/ErkanNarmanli/">GitHub</a></li>
                         <li><a href="https://git.eleves.ens.fr/u/narmanli">GitÉlèves (ENS)</a></li>
-                        <li><a href="{% url 'oral:devlist' %}">Développements</a></li>
+                        <li><a href="https://github.com/ErkanNarmanli/agreg_maths/issues">Repporter un problème</a></li>
                     </ul>
                 </div>
             </div>
