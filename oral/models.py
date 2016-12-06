@@ -51,6 +51,11 @@ class Reference(models.Model):
         verbose_name = "référence"
         verbose_name_plural = "références"
 
+    def __str__(self):
+        return "%s, %d, %s" % (self.title,
+                               self.year,
+                               self.author)
+
 
 class Development(models.Model):
     title = models.CharField(

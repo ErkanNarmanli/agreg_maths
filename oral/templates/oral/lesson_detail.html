@@ -27,7 +27,7 @@
         {% if lesson.references.exists %}
             <ul>
             {% for dev in lesson.references.all %}
-            <li>{{ dev.title }} par <i>{{ dev.author }}</i></li>
+            <li>[{{ dev.slug }}] <strong>{{ dev.title }}</strong>, {{ dev.year }} par <i>{{ dev.author }}</i>.</li>
             {% endfor %}
             </ul>
         {% else %}
