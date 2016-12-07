@@ -207,7 +207,8 @@ class EffectiveDevelopment(models.Model):
             )
     user = models.ForeignKey(User)
     remarks = models.TextField("Remarques personnelles concernant"
-                               " le développement.")
+                               " le développement.",
+                               blank=True,)
 
     class Meta:
         verbose_name = "affectation de développement"
