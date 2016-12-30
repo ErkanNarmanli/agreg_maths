@@ -107,6 +107,7 @@ class LessonDetail(DetailView):
                                                         )
         return context
 
+@method_decorator(login_required, name='dispatch')
 class AjaxLessonUpdateContent(PermissionRequiredMixin, UpdateView):
     # permission
     permission_required = 'oral.change_lesson'
@@ -121,6 +122,7 @@ class AjaxLessonUpdateContent(PermissionRequiredMixin, UpdateView):
         self.template = get_object_or_404(LessonTemplate, num=self.args[1], year=self.page_user.profil.year)
         return get_object_or_404(Lesson, author=self.page_user, template=self.template)
 
+@method_decorator(login_required, name='dispatch')
 class AjaxLessonUpdateRemarks(UpdateView, PermissionRequiredMixin):
     # permission
     permission_required = 'oral.change_lesson'

@@ -42,11 +42,16 @@
             {% for dev in developments.all%}
                 <li>
                     <a class="dev_link" href="{% url 'oral:devdetail' dev.id %}">{{ dev.development.title }}</a>
+                    {% if dev.development.references.exists %}
+                    {% for ref in dev.development.references.all %}
+                        [{{ref.slug}}]                         
+                    {% endfor %}
+                    {% endif %}
                     {% if dev.development.document %}
                     <p><a href="{{ dev.development.document.url }}">Fichier</a></p>
                     {% endif %}
                     {% if dev.remarks %}
-                    <p><strong>Mes remarques : </strong>{{ dev.remarks }}</p>
+                    <p><strong>remarques perso : </strong>{{ dev.remarks }}</p>
                     {% endif %}
                 </li>
             {% endfor %}
