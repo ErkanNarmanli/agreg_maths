@@ -60,19 +60,16 @@ class LessonList(TemplateView):
         analyse_lessons = LessonTemplate.objects.filter(year=user_year,
                                                         category='analyse')
         if is_info:
-            algebre_lessons = algebre_lessons.filter(is_for_info=True) \
-                                             .order_by('num')
-            analyse_lessons = analyse_lessons.filter(is_for_info=True) \
-                                             .order_by('num')
+            algebre_lessons = algebre_lessons.filter(is_for_info=True)
+            analyse_lessons = analyse_lessons.filter(is_for_info=True)
             info_lessons = LessonTemplate.objects.filter(year=user_year,
                                                         category='informatique',)
-            info_lessons = info_lessons.order_by('num')
         context['page_user'] = page_user
         context['is_info'] = is_info
-        context['algebre_lessons'] = algebre_lessons
-        context['analyse_lessons'] = analyse_lessons
+        context['algebre_lessons'] = algebre_lessons.order_by('num')
+        context['analyse_lessons'] = analyse_lessons.order_by('num')
         if is_info:
-            context['info_lessons'] = info_lessons
+            context['info_lessons'] = info_lessons.order_by('num')
         devs_nb= {}
         devs_nb_class = {}
         for template in LessonTemplate.objects.filter(year=user_year):
