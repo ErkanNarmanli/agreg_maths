@@ -73,6 +73,21 @@ class LessonList(TemplateView):
         context['analyse_lessons'] = analyse_lessons
         if is_info:
             context['info_lessons'] = info_lessons
+        devs_nb= {}
+        devs_nb_class = {}
+        for template in LessonTemplate.objects.filter(year=user_year):
+            nb = template.allDevs.filter(user=page_user).count()
+            devs_nb[template.num] = nb
+            if nb == 0:
+                devs_nb_class[template.num] = "bg-danger"
+            elif nb == 1:
+                devs_nb_class[template.num] = "bg-warning"
+            elif nb == 2:
+                devs_nb_class[template.num] = "bg-success"
+            else:
+                devs_nb_class[template.num] = "bg-info"
+        context['devs_nb'] = devs_nb
+        context['devs_nb_class'] = devs_nb_class
         return context
 
 

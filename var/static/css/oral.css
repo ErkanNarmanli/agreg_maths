@@ -48,6 +48,12 @@
     text-align: right;
 }
 
+.lesson-list td.dev_nb {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
 .oral-form-icon {
     color : #E8A648;
     font-size : 20px;

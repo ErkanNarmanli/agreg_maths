@@ -25,6 +25,9 @@ Liste des leçons
     <table class="table lesson-list">
         {% for lesson in algebre_lessons %}
         <tr class="{% is_started_class lesson page_user %}">
+            <td class="dev_nb col-md-1 {{ devs_nb_class | get_item:lesson.num }}">
+                {{ devs_nb | get_item:lesson.num }}
+            </td>
             <td><code>{{ lesson.num }}</code>&nbsp;&nbsp;
             {% href_open_or_not lesson page_user %}
             {{ lesson.title }}
@@ -40,6 +43,9 @@ Liste des leçons
     <table class="table lesson-list">
         {% for lesson in analyse_lessons %}
         <tr class="{% is_started_class lesson page_user %}">
+            <td class="dev_nb col-md-1 {{ devs_nb_class | get_item:lesson.num }}">
+                {{ devs_nb | get_item:lesson.num }}
+            </td>
             <td><code>{{ lesson.num }}</code>&nbsp;&nbsp;
             {% href_open_or_not lesson page_user %}
             {{ lesson.title }}
@@ -56,6 +62,9 @@ Liste des leçons
         <table class="table lesson-list">
             {% for lesson in info_lessons %}
             <tr class="{% is_started_class lesson page_user %}">
+                <td class="dev_nb col-md-1 {{ devs_nb_class | get_item:lesson.num }}">
+                    {{ devs_nb | get_item:lesson.num }}
+                </td>
                 <td><code>{{ lesson.num }}</code>&nbsp;&nbsp;
                 {% href_open_or_not lesson page_user %}
                 {{ lesson.title }}
